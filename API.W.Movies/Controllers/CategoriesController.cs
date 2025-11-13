@@ -1,6 +1,5 @@
 ﻿using API.W.Movies.DAL.Models.Dtos;
 using API.W.Movies.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.W.Movies.Controllers
@@ -20,11 +19,22 @@ namespace API.W.Movies.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategoriesAsync()
+        public async Task<ActionResult<ICollection<CategoryDto>>> GetCategoriesAsync()
         {
             var categoriesDto = await _categoryService.GetCategoriesAsync();
             return Ok(categoriesDto);
         }
+
+        [HttpGet("{id:int}", Name = "GetCategoryAsync")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(int id)
+        {
+            var categoryDto = await _categoryService.GetCategoryAsync(id);
+            return Ok(categoryDto);
+        } 
 
     }
 }
